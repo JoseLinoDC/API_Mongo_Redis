@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "d3b804fb-6910-4755-aa93-fdb7b3686d54",
+		"name": "Querys MongoDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37983961"
+	},
+	"item": [
+		{
+			"name": "Querys",
+			"item": [
+				{
+					"name": "■\tQ7. Listar todos los pedidos (incluyendo los productos) de un cliente en específico.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/674ec269b4f5f66bb3bec765/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"674ec269b4f5f66bb3bec765",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ5. Listar los productos con mejores valoraciones.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/productos/valoraciones/mejores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos",
+								"valoraciones",
+								"mejores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ9. Listar todos los Clientes que han comprado un producto en específico.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/producto/674ec269b4f5f66bb3bec757/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"producto",
+								"674ec269b4f5f66bb3bec757",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ6. Listar los productos más agregados a los carritos de compra. (Sale un Error raro Solucionar)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/productos/all/mas-agregados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos",
+								"all",
+								"mas-agregados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ8. Listar todos los productos que ha adquirido un cliente en específico.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/674ffd3adc7bd95f9a5e73ad/adquiridos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"674ffd3adc7bd95f9a5e73ad",
+								"adquiridos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ3. Listar los productos de una marca específica y los clientes que los han agregado a su carrito. ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/marca/Levis",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"marca",
+								"Levis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ4. Listar los productos que ha agregado un cliente en específico a su carrito de compras.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/674eb8d7293d8674d753f10e/carrito",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"674eb8d7293d8674d753f10e",
+								"carrito"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ1. Listar los productos de una categoría específica.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/productos/categoria/Ropa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos",
+								"categoria",
+								"Ropa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "■\tQ2. Listar los productos de una marca específica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/productos/marca/Levis",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos",
+								"marca",
+								"Levis"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CRUD Usuarios",
+			"item": [
+				{
+					"name": "CRUD Post de Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Carlos Mendoza\",\r\n  \"email\": \"carlos.mendoza@example.com\",\r\n  \"contraseña\": \"segura123\",\r\n  \"direccion_envio\": \"Calle xd 123, Ciudad Tepic\",\r\n  \"telefono\": \"1234567890\",\r\n  \"carrito\": {\r\n    \"productos\": [\r\n      {\r\n        \"producto_id\": \"674fff10a303b8b05d4ce92e\",\r\n        \"cantidad\": 2\r\n      }\r\n    ]\r\n  },\r\n  \"pedidos\": [\r\n    {\r\n      \"fecha_pedido\": \"2024-12-03\",\r\n      \"estado\": \"pendiente\",\r\n      \"productos\": [\r\n        {\r\n          \"producto_id\": \"674fff10a303b8b05d4ce92e\",\r\n          \"cantidad\": 1\r\n        }\r\n      ],\r\n      \"precio_total\": 400,\r\n      \"metodo_pago\": \"Tarjeta de Credito\"\r\n    }\r\n  ],\r\n  \"comentarios\": [\r\n    {\r\n      \"producto_id\": \"674fff10a303b8b05d4ce92e\",\r\n      \"valoracion\": 5,\r\n      \"comentario\": \"¡Gran calidad!\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CRUD GET de Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CRUD DELETE Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/674ec59da8975fd7ae232a42",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"674ec59da8975fd7ae232a42"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CRUD PUT de Usuario ",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Carlos Mendoza Actualizado\",\r\n  \"direccion_envio\": \"Nueva Calle 456, Ciudad Actualizada\",\r\n  \"carrito\": {\r\n    \"productos\": [\r\n      {\r\n        \"producto_id\": \"63c9f401fcd4e1d8bf7e8277\",\r\n        \"cantidad\": 3\r\n      }\r\n    ]\r\n  },\r\n  \"pedidos\": [\r\n    {\r\n      \"fecha_pedido\": \"2024-12-04\",\r\n      \"estado\": \"enviado\",\r\n      \"productos\": [\r\n        {\r\n          \"producto_id\": \"63c9f401fcd4e1d8bf7e8277\",\r\n          \"cantidad\": 1\r\n        }\r\n      ],\r\n      \"precio_total\": 500,\r\n      \"metodo_pago\": \"Paypal\"\r\n    }\r\n  ],\r\n  \"comentarios\": [\r\n    {\r\n      \"producto_id\": \"63c9f401fcd4e1d8bf7e8277\",\r\n      \"valoracion\": 4,\r\n      \"comentario\": \"Actualizado: Producto bastante bueno.\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/usuarios/674ec59da8975fd7ae232a42",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"usuarios",
+								"674ec59da8975fd7ae232a42"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CRUD Productos",
+			"item": [
+				{
+					"name": "CRUD PUT Productos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"precio\": 34.99,\r\n  \"tallas_disponibles\": [\"M\", \"L\", \"XXL\"],\r\n  \"descripcion\": \"Actualizado: Camiseta deportiva con materiales mejorados.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/productos/674ec7620490fe2bddd39472",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos",
+								"674ec7620490fe2bddd39472"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CRUD POST de Productos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"categoria\": \"Ropa\",\r\n  \"subcategoria\": \"Camisetas\",\r\n  \"marca\": \"Nike\",\r\n  \"modelo\": \"Sportswear Essentials\",\r\n  \"descripcion\": \"Camiseta deportiva para entrenamiento y uso casual.\",\r\n  \"precio\": 29.99,\r\n  \"tallas_disponibles\": [\"S\", \"M\", \"L\", \"XL\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CRUD GET de Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/productos/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CRUD DELETE de Productos",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/productos/674ec73ceb59b8789c1cacfd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"productos",
+								"674ec73ceb59b8789c1cacfd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

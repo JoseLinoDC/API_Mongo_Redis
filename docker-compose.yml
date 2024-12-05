@@ -1,24 +1,59 @@
-version: '3'
+version: '3.8'
 
 services:
-  mongo:
+  mongo-primary:
     image: mongo
-    container_name: mongo01
+    container_name: mongo-primary
+    command: mongod --replSet replica01
     ports:
       - "27017:27017"
     networks:
       labs:
         ipv4_address: 172.20.0.3
+  
+  mongo-secondary1:
+    image: mongo
+    container_name: mongo-secondary1
+    command: mongod --replSet replica01
+    ports:
+      - "27018:27017"
+    networks:
+      labs:
+        ipv4_address: 172.20.0.4
 
-  redis:
-    image: redis/redis-stack:latest
+  mongo-secondary2:
+    image: mongo
+    container_name: mongo-secondary2
+    command: mongod --replSet replica01
+    ports:
+      - "27019:27017"
+    networks:
+      labs:
+        ipv4_address: 172.20.0.5
+
+  mongo-secondary3:
+    image: mongo
+    container_name: mongo-secondary3
+    command: mongod --replSet replica01
+    ports:
+      - "27020:27017"
+    networks:
+      labs:
+        ipv4_address: 172.20.0.6
+
+  redis01:
+    image: redis
     container_name: redis01
     ports:
       - "6379:6379"
-      - "8001:8001"
     networks:
       labs:
         ipv4_address: 172.20.0.2
+    depends_on:
+      - mongo-primary
+      - mongo-secondary1
+      - mongo-secondary2
+      - mongo-secondary3
 
   app:
     build:
@@ -31,11 +66,14 @@ services:
       - REDIS_PORT=${REDIS_PORT}
       - MONGO_URI=${MONGO_URI}
     depends_on:
-      - mongo
-      - redis
+      - mongo-primary
+#      - mongo-secondary1
+#      - mongo-secondary2
+#      - mongo-secondary3
+      - redis01
     networks:
       labs:
-        ipv4_address: 172.20.0.4
+        ipv4_address: 172.20.0.7
 
 networks:
   labs:
