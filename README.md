@@ -1089,4 +1089,171 @@ exports.obtenerProductosYClientesPorMarca = async (req, res) => {
 ```
 
 ## **Codigo routes.js**
+**Codigo rutasProductos.js**
+```javascript
+const express = require('express');
+const router = express.Router();
+const productosController = require('../controllers/productosController');
 
+
+router.get('/all', productosController.obtenerProductos);
+router.get('/all/mas-agregados', productosController.obtenerProductosMasAgregados); //Q6
+router.get('/:id', productosController.obtenerProductoPorId);
+router.post('/', productosController.crearProducto);
+router.put('/:id', productosController.actualizarProducto);
+router.delete('/:id', productosController.eliminarProducto);
+
+router.get('/categoria/:categoria', productosController.obtenerProductosPorCategoria); // Q1
+router.get('/marca/:marca', productosController.obtenerProductosPorMarca); // Q2
+router.get('/valoraciones/mejores', productosController.obtenerProductosMejorValorados); // Q5
+
+module.exports = router;
+
+```
+
+**Codigo rutasUsuarios.js**
+```javascript
+const express = require('express');
+const router = express.Router();
+const usuariosController = require('../controllers/usuarioController');
+
+
+router.get('/all', usuariosController.obtenerUsuarios);
+router.get('/:id', usuariosController.obtenerUsuarioPorId);
+router.post('/', usuariosController.crearUsuario);
+router.put('/:id', usuariosController.actualizarUsuario);
+router.delete('/:id', usuariosController.eliminarUsuario);
+
+
+router.get('/marca/:marca', usuariosController.obtenerProductosYClientesPorMarca); // Q3
+router.get('/:idCliente/carrito', usuariosController.obtenerCarritoDeCliente); // Q4
+router.get('/:idCliente/pedidos', usuariosController.obtenerPedidosDeCliente); // Q7
+router.get('/:idCliente/adquiridos', usuariosController.obtenerProductosAdquiridosPorCliente); // Q8
+router.get('/producto/:idProducto/clientes', usuariosController.obtenerClientesPorProducto); // Q9
+
+module.exports = router;
+```
+
+### **Codigo Models.js**
+**Codigo productos.js**
+```javascript
+const mongoose = require('mongoose');
+
+const ProductoSchema = new mongoose.Schema({
+  categoria: { type: String, required: true },
+  subcategoria: { type: String, required: true },
+  marca: { type: String, required: true },
+  modelo: { type: String, required: true },
+  descripcion: { type: String, required: true },
+  precio: { type: Number, required: true },
+  tallas_disponibles: { type: [String], required: true }
+}, { timestamps: true });
+
+module.exports = mongoose.model('Producto', ProductoSchema);
+```
+
+**Codigo usuarios.js**
+```javascript
+const mongoose = require('mongoose');
+
+const ProductoCarritoSchema = new mongoose.Schema({
+  producto_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Producto', required: true },
+  cantidad: { type: Number, required: true }
+});
+
+const ProductoPedidoSchema = new mongoose.Schema({
+  producto_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Producto', required: true },
+  cantidad: { type: Number, required: true }
+});
+
+const PedidoSchema = new mongoose.Schema({
+  fecha_pedido: { type: Date, default: Date.now },
+  estado: { type: String, enum: ['pendiente', 'enviado', 'entregado', 'cancelado'], required: true },
+  productos: { type: [ProductoPedidoSchema], required: true },
+  precio_total: { type: Number, required: true },
+  metodo_pago: { type: String, enum: ['Tarjeta de Credito', 'Tarjeta de Debito', 'Paypal', 'Efectivo'], required: true }
+});
+
+const ComentarioSchema = new mongoose.Schema({
+  producto_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Producto', required: true },
+  valoracion: { type: Number, min: 1, max: 5, required: true },
+  comentario: { type: String, required: true }
+});
+
+const UsuarioSchema = new mongoose.Schema({
+  nombre: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  contraseña: { type: String, required: true },
+  direccion_envio: { type: String, required: true },
+  telefono: { type: String, required: true },
+  carrito: {
+    productos: { type: [ProductoCarritoSchema], default: [] }
+  },
+  pedidos: { type: [PedidoSchema], default: [] },
+  comentarios: { type: [ComentarioSchema], default: [] }
+}, { timestamps: true });
+
+module.exports = mongoose.model('Usuario', UsuarioSchema);
+```
+
+### Codigo Middleware
+**Codigo logger.js**
+```javascript
+const redis = require('redis');
+const client = redis.createClient({
+    socket: {
+        port: 6379,
+        host: '172.20.0.2'
+    }
+});
+
+// Conectar al cliente de Redis al cargar el archivo
+client.connect().catch(console.error);
+
+module.exports = (req, res, next) => {
+    let responseBody;  // Variable para almacenar el contenido de la respuesta
+
+    // Sobreescribimos el método 'send' de res para capturar la respuesta
+    const originalSend = res.send;
+    res.send = function (body) {
+        responseBody = body;  // Guardar el contenido de la respuesta
+        originalSend.call(this, body);  // Llamar a la función original 'send'
+    };
+
+    res.on('finish', async () => {
+        // Construir la clave y el valor
+        const fecha = new Date();
+        const key = `${req.method}:${fecha.toLocaleDateString()}-${fecha.getHours()}-${fecha.getMinutes()}-${fecha.getSeconds()}:${req.originalUrl}`;
+
+        // Almacenar todo en un solo objeto JSON en el valor
+        const valor = JSON.stringify({
+            clave: key,
+            time: fecha,
+            req: {
+                method: req.method,
+                url: req.originalUrl,
+                headers: req.headers,
+                body: req.body
+            },
+            res: {
+                statusCode: res.statusCode,
+                statusMessage: res.statusMessage,
+                response: responseBody
+            }
+        });
+        console.log(valor);
+        
+        try {
+            await client.set(key, valor);
+        } catch (error) {
+            console.error("Error al conectar o enviar datos a Redis:", error);
+        }
+    });
+    next();
+};
+
+// Desconectar el cliente Redis al cerrar la aplicación
+process.on('exit', () => {
+    client.disconnect().catch(console.error);
+});
+```
